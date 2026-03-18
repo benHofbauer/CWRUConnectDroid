@@ -21,6 +21,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material.icons.rounded.EmojiPeople
 import androidx.compose.material.icons.rounded.Person
+import com.example.cwruconnectdroid.view.profile.Profile
+import com.example.cwruconnectdroid.view.profile.SelfProfile
 
 val MyAppIcons = Icons.Rounded
 class MainActivity : ComponentActivity() {
@@ -69,7 +71,7 @@ fun MainApp() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("profile") {
-                //ProfileNavigation()
+                SelfProfile()
             }
             composable("friends") {
                 FriendScreen()
