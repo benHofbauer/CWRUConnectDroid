@@ -1,4 +1,4 @@
-package com.example.cwruconnectdroid
+package com.example.cwruconnectdroid.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -69,7 +69,7 @@ fun MainApp() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("profile") {
-                ProfileNavigation()
+                //ProfileNavigation()
             }
             composable("friends") {
                 FriendScreen()

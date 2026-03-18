@@ -6,26 +6,50 @@ import androidx.lifecycle.viewModelScope
 import com.example.cwruconnectdroid.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.cwruconnectdroid.repository.UserRepository
+import com.example.cwruconnectdroid.model.UserRepository
 import kotlinx.coroutines.launch
 
 class FriendListViewModel : ViewModel() {
     private val repository = UserRepository
-    private val _users = MutableStateFlow<List<User>>(emptyList())
-    val users = _users.asStateFlow()
+    private val _friends = MutableStateFlow<List<User>>(emptyList())
+    val users = _friends.asStateFlow()
 
     init {
-        fetchUsersFromDB()
+        fetchUsers()
     }
 
-    private fun fetchUsersFromDB() {
+    private fun fetchUsers() {
         viewModelScope.launch {
             try {
-                Log.d("SQL", "Getting Users From Repository (ViewModel)")
-                val result = repository.getUsers()
-                _users.value = result
+                Log.d("Model Call", "Getting Users From Repository (ViewModel)")
+                val result = repository.getUsersFriends()
+                _friends.value = result
             } catch (e: Exception) {
-                Log.d("SQL", e.toString())
+                Log.d("Model Call", e.toString())
+            }
+        }
+    }
+
+    private fun refreshUsers() {
+        viewModelScope.launch {
+            try {
+                Log.d("Model Call", "Refresh User List (ViewModel)")
+                val result = repository.reloadFriendList()
+                fetchUsers()
+            } catch (e: Exception) {
+                Log.d("Model Call", e.toString())
+            }
+        }
+    }
+
+    private fun updateUserList() {
+        viewModelScope.launch {
+            try {
+                Log.d("Model Call", "Updating Friend List (ViewModel)")
+                val result = repository.updateUserFriendList()
+                fetchUsers()
+            } catch (e: Exception) {
+                Log.d("Model Call", e.toString())
             }
         }
     }
@@ -35,39 +59,45 @@ class FriendListViewModel : ViewModel() {
 class UserViewModel : ViewModel() {
     private val repository = UserRepository
 
-    private val _user = MutableStateFlow<User>(User(id = -1, name = "-1", bio = "-1"))
+    private val _user = MutableStateFlow<User>(UserRepository.getMainUser())
     val user = _user.asStateFlow()
 
     init {
         fetchMainUserFromDB()
     }
 
-    fun UpdateUser(id: Int, name: String, bio: String) {
-        updateUserInDB(id, name, bio)
-    }
-
-    private fun updateUserInDB(id: Int, name: String, bio: String) {
+    private fun fetchMainUserFromDB() {
         viewModelScope.launch {
             try {
-                val success = repository.updateUser(id, name, bio)
-                if (success) {
-                    fetchMainUserFromDB()
-                }
+                Log.d("Model Call", "Getting Main User From Repository (ViewModel)")
+                val result = repository.getMainUser()
+                _user.value = result
             } catch (e: Exception) {
-                Log.d("SQL", e.toString())
+                Log.d("Model Call", e.toString())
             }
         }
     }
 
-    private fun fetchMainUserFromDB() {
-        // viewModelScope ensures the request is canceled if the user leaves the screen
+    private fun refreshMainUser() {
         viewModelScope.launch {
             try {
-                Log.d("SQL", "Getting Main User From Repository (ViewModel)")
-                val result = repository.getMainUser()
-                _user.value = result
+                Log.d("Model Call", "Refresh User List (ViewModel)")
+                val result = repository.reloadMainUser()
+                fetchMainUserFromDB()
             } catch (e: Exception) {
-                Log.d("SQL", e.toString())
+                Log.d("Model Call", e.toString())
+            }
+        }
+    }
+
+    private fun updateUserList() {
+        viewModelScope.launch {
+            try {
+                Log.d("Model Call", "Updating Main User List (ViewModel)")
+                val result = repository.updateMainUser(user = user.value)
+                fetchMainUserFromDB()
+            } catch (e: Exception) {
+                Log.d("Model Call", e.toString())
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.cwruconnectdroid.Railway
+package com.example.cwruconnectdroid.railway
 import com.example.cwruconnectdroid.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,10 +9,10 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("get_my_connections")
-    suspend fun getMyConnections(@Query("userID") userId: Int): List<User>
+    suspend fun getMyConnections(@Query("userID") userId: String): List<User>
 
     @GET("get_user")
-    suspend fun getMainUser(@Query("userID") userId: Int): User
+    suspend fun getMainUser(@Query("userID") userId: String): User
 
     @POST("update_user")
     suspend fun updateUser(@Body request: User): Unit
