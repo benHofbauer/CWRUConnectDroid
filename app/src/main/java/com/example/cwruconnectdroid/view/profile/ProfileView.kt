@@ -162,5 +162,5 @@ fun Profile(
 fun PreviewProfile() {
     var viewModel: UserViewModel = viewModel()
     var user = viewModel.user.collectAsState().value
-    Profile(user)
+    Profile(user!!)
 }

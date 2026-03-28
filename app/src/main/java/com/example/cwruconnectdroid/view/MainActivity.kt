@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material.icons.rounded.EmojiPeople
 import androidx.compose.material.icons.rounded.Person
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cwruconnectdroid.view.profile.Profile
 import com.example.cwruconnectdroid.view.profile.SelfProfile
 
@@ -67,7 +68,7 @@ fun MainApp() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "friends",
+            startDestination = "profile",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("profile") {

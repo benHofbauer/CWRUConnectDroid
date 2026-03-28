@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -51,11 +52,11 @@ fun FriendScreen(
     viewModel: FriendListViewModel = viewModel()
 ) {
     val navController = rememberNavController()
-    val userList by viewModel.users.collectAsState()
+
+    val userList by viewModel.friends.collectAsStateWithLifecycle()
 
     NavHost(navController = navController, startDestination = Screen.FriendsList.route) {
 
-        // --- Screen 1: The List ---
         composable(Screen.FriendsList.route) {
             FriendsListScreen(
                 users = userList,
@@ -65,16 +66,19 @@ fun FriendScreen(
             )
         }
 
-        // --- Screen 2: The Detail Profile ---
         composable(Screen.UserProfile.route) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId")
             val user = userList.find { it.id == userId }
 
-            user?.let {
+            //  Explicitly handle the null state instead of drawing a blank screen
+            if (user != null) {
                 FriendProfile(
-                    user = it,
+                    user = user,
                     onBack = { navController.popBackStack() }
                 )
+            } else {
+                // Fallback UI if the user isn't found or is still loading
+                Text(text = "Loading...")
             }
         }
     }

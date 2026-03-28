@@ -6,26 +6,24 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.Path
 
-interface ApiService {
-    @GET("get_my_connections")
-    suspend fun getMyConnections(@Query("userID") userId: String): List<User>
+interface UserApiService {
+    @GET("get_user_stats/{id}")
+    suspend fun getUser(@Path("id") userId: String): User
 
-    @GET("get_user")
-    suspend fun getMainUser(@Query("userID") userId: String): User
-
-    @POST("update_user")
-    suspend fun updateUser(@Body request: User): Unit
+    @GET("get_connections/{id}")
+    suspend fun getFriends(@Path("id") userId: String): List<User>
 }
 
 object RetrofitClient {
-    private const val BASE_URL = "https://cwruconnect-api-production.up.railway.app/"
+    private const val BASE_URL = "https://7hsxg16oej.execute-api.us-east-2.amazonaws.com/"
 
-    val api: ApiService by lazy {
+    val instance: UserApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ApiService::class.java)
+            .create(UserApiService::class.java)
     }
 }

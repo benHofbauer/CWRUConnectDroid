@@ -11,95 +11,89 @@ import kotlinx.coroutines.launch
 
 class FriendListViewModel : ViewModel() {
     private val repository = UserRepository
+
     private val _friends = MutableStateFlow<List<User>>(emptyList())
-    val users = _friends.asStateFlow()
+    val friends = _friends.asStateFlow()
 
     init {
         fetchUsers()
     }
 
-    private fun fetchUsers() {
+    fun fetchUsers() {
         viewModelScope.launch {
             try {
-                Log.d("Model Call", "Getting Users From Repository (ViewModel)")
-                val result = repository.getUsersFriends()
-                _friends.value = result
+                _friends.value = repository.getUsersFriends()
             } catch (e: Exception) {
-                Log.d("Model Call", e.toString())
+                Log.e("FriendListViewModel", "Error getting friends: ${e.message}")
             }
         }
     }
 
-    private fun refreshUsers() {
+    fun refreshUsers() {
         viewModelScope.launch {
             try {
-                Log.d("Model Call", "Refresh User List (ViewModel)")
-                val result = repository.reloadFriendList()
+                repository.reloadFriendList()
+                fetchUsers() // Update StateFlow with newly cached data
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error refreshing friends: ${e.message}")
+            }
+        }
+    }
+
+    fun updateUserList() {
+        viewModelScope.launch {
+            try {
+                repository.updateUserFriendList()
                 fetchUsers()
             } catch (e: Exception) {
-                Log.d("Model Call", e.toString())
+                Log.e("FriendListViewModel", "Error pushing friend list: ${e.message}")
             }
         }
     }
-
-    private fun updateUserList() {
-        viewModelScope.launch {
-            try {
-                Log.d("Model Call", "Updating Friend List (ViewModel)")
-                val result = repository.updateUserFriendList()
-                fetchUsers()
-            } catch (e: Exception) {
-                Log.d("Model Call", e.toString())
-            }
-        }
-    }
-
 }
 
 class UserViewModel : ViewModel() {
     private val repository = UserRepository
 
-    private val _user = MutableStateFlow<User>(UserRepository.getMainUser())
+    private val _user = MutableStateFlow<User?>(null)
     val user = _user.asStateFlow()
 
     init {
         fetchMainUserFromDB()
     }
 
-    private fun fetchMainUserFromDB() {
+    fun fetchMainUserFromDB() {
         viewModelScope.launch {
             try {
-                Log.d("Model Call", "Getting Main User From Repository (ViewModel)")
-                val result = repository.getMainUser()
-                _user.value = result
+                _user.value = repository.getMainUser()
             } catch (e: Exception) {
-                Log.d("Model Call", e.toString())
+                Log.e("UserViewModel", "Error getting main user: ${e.message}")
             }
         }
     }
 
-    private fun refreshMainUser() {
+    fun refreshMainUser() {
         viewModelScope.launch {
             try {
-                Log.d("Model Call", "Refresh User List (ViewModel)")
-                val result = repository.reloadMainUser()
+                repository.reloadMainUser()
                 fetchMainUserFromDB()
             } catch (e: Exception) {
-                Log.d("Model Call", e.toString())
+                Log.e("UserViewModel", "Error refreshing user: ${e.message}")
             }
         }
     }
 
-    private fun updateUserList() {
+    fun updateUserProfile() {
         viewModelScope.launch {
             try {
-                Log.d("Model Call", "Updating Main User List (ViewModel)")
-                val result = repository.updateMainUser(user = user.value)
-                fetchMainUserFromDB()
+                // Only attempt to push an update if the user isn't null
+                user.value?.let { currentUser ->
+                    repository.updateMainUser(currentUser)
+                    fetchMainUserFromDB()
+                }
             } catch (e: Exception) {
-                Log.d("Model Call", e.toString())
+                Log.e("UserViewModel", "Error updating main user: ${e.message}")
             }
         }
     }
-
 }
