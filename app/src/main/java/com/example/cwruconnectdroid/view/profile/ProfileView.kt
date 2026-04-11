@@ -24,10 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.cwruconnectdroid.R
-import com.example.cwruconnectdroid.viewmodel.UserViewModel
 import coil3.compose.AsyncImage
+import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 @Composable
 fun Profile(

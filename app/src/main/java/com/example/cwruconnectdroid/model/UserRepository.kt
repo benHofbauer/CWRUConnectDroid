@@ -1,9 +1,6 @@
 package com.example.cwruconnectdroid.model
 import android.util.Log
 import com.example.cwruconnectdroid.railway.RetrofitClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.util.UUID;
 
 object UserRepository {
 

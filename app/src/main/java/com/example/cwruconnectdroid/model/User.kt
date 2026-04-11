@@ -3,7 +3,7 @@ package com.example.cwruconnectdroid.model
 import com.google.gson.annotations.SerializedName
 
 data class User(
-    @SerializedName("userID") val id: String,
+    @SerializedName("userid") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("nickname") val nickname: String,
     @SerializedName("caseID") val caseID: String,

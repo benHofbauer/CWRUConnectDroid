@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.model.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.cwruconnectdroid.model.UserRepository
 import kotlinx.coroutines.launch
 
 class FriendListViewModel : ViewModel() {

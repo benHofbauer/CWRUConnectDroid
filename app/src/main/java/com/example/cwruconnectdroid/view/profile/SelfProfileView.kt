@@ -2,11 +2,9 @@ package com.example.cwruconnectdroid.view.profile
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 @Composable

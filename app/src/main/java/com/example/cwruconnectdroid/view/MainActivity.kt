@@ -5,24 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.EmojiPeople
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.cwruconnectdroid.ui.theme.CWRUConnectDroidTheme
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Book
-import androidx.compose.material.icons.rounded.EmojiPeople
-import androidx.compose.material.icons.rounded.Person
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.cwruconnectdroid.view.profile.Profile
+import com.example.cwruconnectdroid.ui.theme.CWRUConnectDroidTheme
 import com.example.cwruconnectdroid.view.profile.SelfProfile
 
 val MyAppIcons = Icons.Rounded
