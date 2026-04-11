@@ -4,72 +4,96 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.model.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.cwruconnectdroid.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class FriendListViewModel : ViewModel() {
     private val repository = UserRepository
-    private val _users = MutableStateFlow<List<User>>(emptyList())
-    val users = _users.asStateFlow()
+
+    private val _friends = MutableStateFlow<List<User>>(emptyList())
+    val friends = _friends.asStateFlow()
 
     init {
-        fetchUsersFromDB()
+        fetchUsers()
     }
 
-    private fun fetchUsersFromDB() {
+    fun fetchUsers() {
         viewModelScope.launch {
             try {
-                Log.d("SQL", "Getting Users From Repository (ViewModel)")
-                val result = repository.getUsers()
-                _users.value = result
+                _friends.value = repository.getUsersFriends()
             } catch (e: Exception) {
-                Log.d("SQL", e.toString())
+                Log.e("FriendListViewModel", "Error getting friends: ${e.message}")
             }
         }
     }
 
+    fun refreshUsers() {
+        viewModelScope.launch {
+            try {
+                repository.reloadFriendList()
+                fetchUsers() // Update StateFlow with newly cached data
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error refreshing friends: ${e.message}")
+            }
+        }
+    }
+
+    fun updateUserList() {
+        viewModelScope.launch {
+            try {
+                repository.updateUserFriendList()
+                fetchUsers()
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error pushing friend list: ${e.message}")
+            }
+        }
+    }
 }
 
 class UserViewModel : ViewModel() {
     private val repository = UserRepository
 
-    private val _user = MutableStateFlow<User>(User(id = -1, name = "-1", bio = "-1"))
+    private val _user = MutableStateFlow<User?>(null)
     val user = _user.asStateFlow()
 
     init {
         fetchMainUserFromDB()
     }
 
-    fun UpdateUser(id: Int, name: String, bio: String) {
-        updateUserInDB(id, name, bio)
-    }
-
-    private fun updateUserInDB(id: Int, name: String, bio: String) {
+    fun fetchMainUserFromDB() {
         viewModelScope.launch {
             try {
-                val success = repository.updateUser(id, name, bio)
-                if (success) {
+                _user.value = repository.getMainUser()
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error getting main user: ${e.message}")
+            }
+        }
+    }
+
+    fun refreshMainUser() {
+        viewModelScope.launch {
+            try {
+                repository.reloadMainUser()
+                fetchMainUserFromDB()
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error refreshing user: ${e.message}")
+            }
+        }
+    }
+
+    fun updateUserProfile() {
+        viewModelScope.launch {
+            try {
+                // Only attempt to push an update if the user isn't null
+                user.value?.let { currentUser ->
+                    repository.updateMainUser(currentUser)
                     fetchMainUserFromDB()
                 }
             } catch (e: Exception) {
-                Log.d("SQL", e.toString())
+                Log.e("UserViewModel", "Error updating main user: ${e.message}")
             }
         }
     }
-
-    private fun fetchMainUserFromDB() {
-        // viewModelScope ensures the request is canceled if the user leaves the screen
-        viewModelScope.launch {
-            try {
-                Log.d("SQL", "Getting Main User From Repository (ViewModel)")
-                val result = repository.getMainUser()
-                _user.value = result
-            } catch (e: Exception) {
-                Log.d("SQL", e.toString())
-            }
-        }
-    }
-
 }
