@@ -10,12 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FriendProfile(
-    user: User,
+    user: FriendUser,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -33,7 +34,7 @@ fun FriendProfile(
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
-            Profile(user)
+            FriendProfile(user)
         }
     }
 }

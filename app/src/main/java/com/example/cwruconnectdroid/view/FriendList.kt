@@ -34,6 +34,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
+import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.view.profile.FriendProfile
 import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
@@ -85,7 +86,7 @@ fun FriendScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendsListScreen(users: List<User>, onUserClick: (String) -> Unit) {
+fun FriendsListScreen(users: List<FriendUser>, onUserClick: (String) -> Unit) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("My Friends") }) }
     ) { padding ->
@@ -101,7 +102,7 @@ fun FriendsListScreen(users: List<User>, onUserClick: (String) -> Unit) {
 
 @Composable
 fun MiniProfile(
-    user: User
+    user: FriendUser
 ) {
     Row(
         modifier = Modifier

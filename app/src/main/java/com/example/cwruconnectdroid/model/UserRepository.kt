@@ -11,7 +11,7 @@ object UserRepository {
     var main_user: User? = null
         private set
 
-    var friendList: List<User> = emptyList()
+    var friendList: List<FriendUser> = emptyList()
         private set
 
     suspend fun getMainUser(): User? {
@@ -26,7 +26,7 @@ object UserRepository {
         return main_user
     }
 
-    fun getUsersFriends(): List<User> {
+    fun getUsersFriends(): List<FriendUser> {
         return friendList
     }
 
