@@ -14,6 +14,6 @@ data class User(
     @SerializedName("pronunciation") val pronunciation: String?,
     @SerializedName("minibio") val minibio: String?,
     @SerializedName("fact") val fact: String?,
-    @SerializedName("is_public_leaderboard") val is_public_leaderboard: String?,
+    @SerializedName("is_public_leaderboard") val is_public_leaderboard: Boolean?,
     @SerializedName("image_link") val image_link: String
 )

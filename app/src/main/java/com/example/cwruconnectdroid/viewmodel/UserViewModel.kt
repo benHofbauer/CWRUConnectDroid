@@ -84,14 +84,12 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun updateUserProfile() {
+    fun updateUserProfile(userToUpdate: User) {
         viewModelScope.launch {
             try {
-                // Only attempt to push an update if the user isn't null
-                user.value?.let { currentUser ->
-                    repository.updateMainUser(currentUser)
-                    fetchMainUserFromDB()
-                }
+                repository.updateMainUser(userToUpdate)
+
+                fetchMainUserFromDB()
             } catch (e: Exception) {
                 Log.e("UserViewModel", "Error updating main user: ${e.message}")
             }

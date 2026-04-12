@@ -26,7 +26,7 @@ fun FriendProfile(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Text(
-                            text = "TAKE ME BACK"
+                            text = "BACK"
                         )
                     }
                 }
