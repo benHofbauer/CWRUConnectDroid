@@ -1,10 +1,12 @@
 package com.example.cwruconnectdroid.railway
 import com.example.cwruconnectdroid.model.FriendUser
+import com.example.cwruconnectdroid.model.NewConnection
 import com.example.cwruconnectdroid.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -17,6 +19,9 @@ interface UserApiService {
 
     @PUT("update_user")
     suspend fun updateUser(@Body user: User)
+
+    @POST("add_connection")
+    suspend fun addConnection(@Body connection: NewConnection)
 }
 
 object RetrofitClient {

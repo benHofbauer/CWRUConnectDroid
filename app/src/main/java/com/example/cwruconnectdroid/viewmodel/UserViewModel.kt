@@ -41,13 +41,14 @@ class FriendListViewModel : ViewModel() {
         }
     }
 
-    fun updateUserList() {
+
+    fun addFriend(friendToAdd: String) {
         viewModelScope.launch {
             try {
-                repository.updateUserFriendList()
-                fetchUsers()
+                repository.addUserFriend(friendToAdd)
+                refreshUsers()
             } catch (e: Exception) {
-                Log.e("FriendListViewModel", "Error pushing friend list: ${e.message}")
+                Log.e("FriendListViewModel", "Error updating main user: ${e.message}")
             }
         }
     }

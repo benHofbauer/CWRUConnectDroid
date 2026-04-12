@@ -6,20 +6,32 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +49,10 @@ import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.view.profile.FriendProfile
+import com.example.cwruconnectdroid.view.profile.ProfileEditView
+import com.example.cwruconnectdroid.view.profile.SelfProfileView
 import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
+import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 sealed class Screen(val route: String) {
     object FriendsList : Screen("friends_list")
@@ -47,8 +62,43 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun FriendScreen(
+fun FriendScreen (
     viewModel: FriendListViewModel = viewModel()
+) {
+    val navController = rememberNavController()
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate("addFriends")
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add Friends")
+            }
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = "friendsList",
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable("friendsList") {
+                FriendListView(viewModel)
+            }
+            composable("addFriends") {
+                addNewFriend(
+                    viewModel,
+                    { navController.popBackStack() }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun FriendListView(
+    viewModel: FriendListViewModel
 ) {
     val navController = rememberNavController()
 
@@ -69,20 +119,17 @@ fun FriendScreen(
             val userId = backStackEntry.arguments?.getString("userId")
             val user = userList.find { it.id == userId }
 
-            //  Explicitly handle the null state instead of drawing a blank screen
             if (user != null) {
                 FriendProfile(
                     user = user,
                     onBack = { navController.popBackStack() }
                 )
             } else {
-                // Fallback UI if the user isn't found or is still loading
                 Text(text = "Loading...")
             }
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,6 +186,40 @@ fun MiniProfile(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun addNewFriend(
+    viewModel: FriendListViewModel,
+    onBack: () -> Unit
+) {
+    var user_id by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+    ) {
+        OutlinedTextField(
+            value = user_id ,
+            onValueChange = { user_id = it },
+            label = { Text("Add Friend") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Button(onClick = {
+            viewModel.addFriend(user_id)
+            onBack()
+        }) {
+            Text("Add Friend")
+        }
+
+        Button(onClick = {
+            onBack()
+        }) {
+            Text("Go back please")
         }
     }
 }

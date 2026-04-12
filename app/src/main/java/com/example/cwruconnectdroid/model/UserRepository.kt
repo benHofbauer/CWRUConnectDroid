@@ -58,7 +58,14 @@ object UserRepository {
         reloadMainUser()
     }
 
-    suspend fun updateUserFriendList() {
-        // TODO: Implement API push
+    suspend fun addUserFriend(friendID: String) {
+        Log.d("API", "Adding friend...")
+        try {
+            val connection: NewConnection = NewConnection(userid = main_user?.id ?: "", friendID)
+            api.addConnection(connection)
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to add connection: ${e.message}")
+        }
+        reloadFriendList()
     }
 }
