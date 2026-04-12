@@ -3,7 +3,9 @@ import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserApiService {
@@ -12,6 +14,9 @@ interface UserApiService {
 
     @GET("get_connections/{id}")
     suspend fun getFriends(@Path("id") userId: String): List<FriendUser>
+
+    @PUT("update_user")
+    suspend fun updateUser(@Body user: User)
 }
 
 object RetrofitClient {

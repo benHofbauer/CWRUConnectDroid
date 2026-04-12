@@ -49,7 +49,13 @@ object UserRepository {
     }
 
     suspend fun updateMainUser(user: User) {
-        // TODO: Implement API push
+        Log.d("API", "Updating user...")
+        try {
+            api.updateUser(user)
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to update user: ${e.message}")
+        }
+        reloadMainUser()
     }
 
     suspend fun updateUserFriendList() {
