@@ -1,6 +1,7 @@
 package com.example.cwruconnectdroid.railway
 import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.NewConnection
+import com.example.cwruconnectdroid.model.OldConnection
 import com.example.cwruconnectdroid.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,6 +23,9 @@ interface UserApiService {
 
     @POST("add_connection")
     suspend fun addConnection(@Body connection: NewConnection)
+
+    @POST("remove_connection")
+    suspend fun removeConnection(@Body connection: OldConnection)
 }
 
 object RetrofitClient {

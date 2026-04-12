@@ -68,4 +68,15 @@ object UserRepository {
         }
         reloadFriendList()
     }
+
+    suspend fun removeUserFriend(friendID: String) {
+        Log.d("API", "Removing friend...")
+        try {
+            val connection: OldConnection = OldConnection(userid = main_user?.id ?: "", friendID)
+            api.removeConnection(connection)
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to remove connection: ${e.message}")
+        }
+        reloadFriendList()
+    }
 }

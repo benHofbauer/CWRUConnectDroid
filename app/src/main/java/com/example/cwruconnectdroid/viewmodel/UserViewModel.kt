@@ -48,7 +48,18 @@ class FriendListViewModel : ViewModel() {
                 repository.addUserFriend(friendToAdd)
                 refreshUsers()
             } catch (e: Exception) {
-                Log.e("FriendListViewModel", "Error updating main user: ${e.message}")
+                Log.e("FriendListViewModel", "Error adding friend: ${e.message}")
+            }
+        }
+    }
+
+    fun removeFriend(friendToRemove: String) {
+        viewModelScope.launch {
+            try {
+                repository.removeUserFriend(friendToRemove)
+                refreshUsers()
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error removing freidn: ${e.message}")
             }
         }
     }

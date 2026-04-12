@@ -18,10 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Block
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -109,6 +111,7 @@ fun FriendListView(
         composable(Screen.FriendsList.route) {
             FriendsListScreen(
                 users = userList,
+                viewModel,
                 onUserClick = { userId ->
                     navController.navigate(Screen.UserProfile.createRoute(userId))
                 }
@@ -133,14 +136,52 @@ fun FriendListView(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendsListScreen(users: List<FriendUser>, onUserClick: (String) -> Unit) {
+fun FriendsListScreen(
+    users: List<FriendUser>,
+    viewModel: FriendListViewModel,
+    onUserClick: (String) -> Unit
+) {
+    var editing: Boolean by remember { mutableStateOf(false)}
+
     Scaffold(
-        topBar = { TopAppBar(title = { Text("My Friends") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("My Friends") },
+                actions = {
+                    IconButton(onClick = { editing = !editing }) {
+                        Icon(
+                            imageVector = Icons.Filled.Block,
+                            contentDescription = "Remove Friend",
+                        )
+                    }
+                }
+            )
+        }
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(users) { user ->
-                Box(modifier = Modifier.clickable { onUserClick(user.id) }) {
-                    MiniProfile(user)
+                if (editing) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        BlockingProfileView(user)
+
+                        Spacer(Modifier.size(16.dp))
+
+                        IconButton(onClick = { viewModel.removeFriend(user.id) }) {
+                            Icon(
+                                imageVector = Icons.Filled.Block,
+                                contentDescription = "Remove Friend",
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterVertically)
+                            )
+                        }
+                    }
+                } else {
+                    Box(modifier = Modifier.clickable { onUserClick(user.id) } .fillMaxWidth()) {
+                        MiniProfile(user)
+                    }
                 }
             }
         }
@@ -153,8 +194,7 @@ fun MiniProfile(
 ) {
     Row(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
@@ -187,6 +227,27 @@ fun MiniProfile(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun BlockingProfileView(
+    user: FriendUser
+) {
+    Row(
+        modifier = Modifier
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = user.image_link,
+            placeholder = painterResource(R.drawable.img_placeholder),
+            error = painterResource(R.drawable.img_3743),
+            contentDescription = "Profile Photo",
+            modifier = Modifier
+                .size(120.dp)
+                .clip(RoundedCornerShape(percent = 25))
+        )
     }
 }
 
