@@ -26,13 +26,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
+import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 @Composable
-fun Profile(
+fun UserProfile(
     user: User
 ) {
+    var qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${user.id}"
+
     Column (
         modifier = Modifier
             .fillMaxHeight()
@@ -40,7 +43,129 @@ fun Profile(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // ******** PROFILE IMAGE ******** //
+        PFPView(
+            user.image_link,
+            qrLink = qrLink
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // ******** NAME ******** //
+        Text(
+            text = user.name,
+            fontSize = 36.sp,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily.SansSerif
+        )
+
+        // ********** Pronunciation ******* //
+        user.pronunciation?.let {
+            //Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = it,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.Gray
+            )
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        user.minibio?.let {
+            Text(
+                text = it,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily.SansSerif,
+            )
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row (
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            user.pronouns?.let {
+                Text(
+                    text = it,
+                    //modifier = Modifier.weight(1f),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.SansSerif,
+                )
+            }
+
+            Text(
+                text = "User's Major",
+                //modifier = Modifier.weight(1f),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily.SansSerif,
+            )
+
+
+            user.graduation_year?.let {
+                Text(
+                    text = it,
+                    //modifier = Modifier.weight(1f),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.SansSerif,
+                )
+            }
+        }
+
+        Row (
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            user.hometown?.let {
+                Text(
+                    text = it,
+                    //modifier = Modifier.weight(1f),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.SansSerif,
+                )
+            }
+
+            user.nationality?.let {
+                Text(
+                    text = it,
+                    //modifier = Modifier.weight(1f),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.SansSerif,
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+fun FriendProfile(
+    user: FriendUser
+) {
+    var qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${user.id}"
+
+    Column (
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         AsyncImage(
             model = user.image_link,
             placeholder = painterResource(R.drawable.img_placeholder),
@@ -162,5 +287,5 @@ fun Profile(
 fun PreviewProfile() {
     var viewModel: UserViewModel = viewModel()
     var user = viewModel.user.collectAsState().value
-    Profile(user!!)
+    UserProfile(user!!)
 }

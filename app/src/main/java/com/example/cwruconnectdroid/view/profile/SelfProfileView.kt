@@ -15,7 +15,7 @@ fun SelfProfile(
     val user by viewModel.user.collectAsStateWithLifecycle()
 
     if (user != null) {
-        Profile(user = user!!)
+        UserProfile(user = user!!)
     } else {
         CircularProgressIndicator()
     }

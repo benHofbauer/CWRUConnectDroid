@@ -1,4 +1,5 @@
 package com.example.cwruconnectdroid.railway
+import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,7 +11,7 @@ interface UserApiService {
     suspend fun getUser(@Path("id") userId: String): User
 
     @GET("get_connections/{id}")
-    suspend fun getFriends(@Path("id") userId: String): List<User>
+    suspend fun getFriends(@Path("id") userId: String): List<FriendUser>
 }
 
 object RetrofitClient {
