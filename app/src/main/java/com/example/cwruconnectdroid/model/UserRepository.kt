@@ -79,4 +79,15 @@ object UserRepository {
         }
         reloadFriendList()
     }
+
+    suspend fun toggleFriendStar(friendID: String) {
+        Log.d("API", "Starring friend...")
+        try {
+            val connection: OldConnection = OldConnection(userid = main_user?.id ?: "", friendID)
+            api.toggleStar(connection)
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to star connection: ${e.message}")
+        }
+        reloadFriendList()
+    }
 }

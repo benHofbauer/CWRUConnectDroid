@@ -63,6 +63,17 @@ class FriendListViewModel : ViewModel() {
             }
         }
     }
+
+    fun toggleFriendStar(friendToToggle: String) {
+        viewModelScope.launch {
+            try {
+                repository.toggleFriendStar(friendToToggle)
+                refreshUsers()
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error toggling friend star: ${e.message}")
+            }
+        }
+    }
 }
 
 class UserViewModel : ViewModel() {

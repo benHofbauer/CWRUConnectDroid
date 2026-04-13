@@ -26,6 +26,9 @@ interface UserApiService {
 
     @POST("remove_connection")
     suspend fun removeConnection(@Body connection: OldConnection)
+
+    @POST("toggle_star")
+    suspend fun toggleStar(@Body connection: OldConnection)
 }
 
 object RetrofitClient {

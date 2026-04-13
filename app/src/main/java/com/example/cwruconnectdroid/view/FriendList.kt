@@ -1,6 +1,5 @@
 package com.example.cwruconnectdroid.view
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,9 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Block
@@ -49,12 +46,8 @@ import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.FriendUser
-import com.example.cwruconnectdroid.model.User
-import com.example.cwruconnectdroid.view.profile.FriendProfile
-import com.example.cwruconnectdroid.view.profile.ProfileEditView
-import com.example.cwruconnectdroid.view.profile.SelfProfileView
+import com.example.cwruconnectdroid.view.profile.FriendProfileScaffold
 import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
-import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 sealed class Screen(val route: String) {
     object FriendsList : Screen("friends_list")
@@ -123,8 +116,9 @@ fun FriendListView(
             val user = userList.find { it.id == userId }
 
             if (user != null) {
-                FriendProfile(
+                FriendProfileScaffold(
                     user = user,
+                    viewModel = viewModel,
                     onBack = { navController.popBackStack() }
                 )
             } else {
