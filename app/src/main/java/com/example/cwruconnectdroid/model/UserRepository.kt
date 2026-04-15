@@ -14,6 +14,9 @@ object UserRepository {
     var friendList: List<FriendUser> = emptyList()
         private set
 
+    var guessingList: List<guessingInstance> = emptyList()
+        private set
+
     suspend fun getMainUser(): User? {
         if (main_user == null) {
             reloadMainUser()
@@ -28,6 +31,10 @@ object UserRepository {
 
     fun getUsersFriends(): List<FriendUser> {
         return friendList
+    }
+
+    fun getGuessingGame(): List<guessingInstance> {
+        return guessingList
     }
 
     suspend fun reloadMainUser() {
@@ -89,5 +96,14 @@ object UserRepository {
             Log.e("API_ERROR", "Failed to star connection: ${e.message}")
         }
         reloadFriendList()
+    }
+
+    suspend fun updateGuessingGame() {
+        Log.d("API", "Starting Guessing Game")
+        try {
+            guessingList = api.getGameDeck(main_user_id)
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to start guessing game: ${e.message}")
+        }
     }
 }

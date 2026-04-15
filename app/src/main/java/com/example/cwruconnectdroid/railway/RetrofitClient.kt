@@ -3,6 +3,7 @@ import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.NewConnection
 import com.example.cwruconnectdroid.model.OldConnection
 import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.model.guessingInstance
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -29,6 +30,9 @@ interface UserApiService {
 
     @POST("toggle_star")
     suspend fun toggleStar(@Body connection: OldConnection)
+
+    @GET("get_game_deck/{id}")
+    suspend fun getGameDeck(@Path("id") userId: String): List<guessingInstance>
 }
 
 object RetrofitClient {
