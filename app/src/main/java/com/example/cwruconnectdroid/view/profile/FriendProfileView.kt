@@ -11,12 +11,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.cwruconnectdroid.model.FriendUser
-import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
+import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendProfile(
+fun FriendProfileScaffold(
     user: FriendUser,
+    viewModel: FriendListViewModel,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -34,7 +36,10 @@ fun FriendProfile(
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
-            FriendProfile(user)
+            FriendProfile(
+                user,
+                viewModel
+            )
         }
     }
 }

@@ -9,6 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +34,7 @@ import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
 import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 @Composable
@@ -155,7 +162,8 @@ fun UserProfile(
 
 @Composable
 fun FriendProfile(
-    user: FriendUser
+    user: FriendUser,
+    viewModel: FriendListViewModel
 ) {
     var qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${user.id}"
 
@@ -166,6 +174,24 @@ fun FriendProfile(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row (
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+
+            Spacer(modifier = Modifier)
+
+            IconButton(onClick = { viewModel.toggleFriendStar(user.id) }) {
+                Icon(
+                    imageVector = if (user.starred) Icons.Filled.Star else Icons.Default.StarBorder,
+                    contentDescription = "Toggle Best Friend",
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterVertically)
+                )
+            }
+        }
+
         AsyncImage(
             model = user.image_link,
             placeholder = painterResource(R.drawable.img_placeholder),

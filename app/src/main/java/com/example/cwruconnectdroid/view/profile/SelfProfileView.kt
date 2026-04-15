@@ -45,7 +45,6 @@ import com.example.cwruconnectdroid.viewmodel.UserViewModel
 fun SelfProfile(
     viewModel: UserViewModel = viewModel()
 ) {
-    // Lifecycle-aware collection. Using 'by' delegates the value directly.
     val user by viewModel.user.collectAsStateWithLifecycle()
     val navController = rememberNavController()
 

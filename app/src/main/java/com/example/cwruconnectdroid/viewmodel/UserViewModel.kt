@@ -41,13 +41,36 @@ class FriendListViewModel : ViewModel() {
         }
     }
 
-    fun updateUserList() {
+
+    fun addFriend(friendToAdd: String) {
         viewModelScope.launch {
             try {
-                repository.updateUserFriendList()
-                fetchUsers()
+                repository.addUserFriend(friendToAdd)
+                refreshUsers()
             } catch (e: Exception) {
-                Log.e("FriendListViewModel", "Error pushing friend list: ${e.message}")
+                Log.e("FriendListViewModel", "Error adding friend: ${e.message}")
+            }
+        }
+    }
+
+    fun removeFriend(friendToRemove: String) {
+        viewModelScope.launch {
+            try {
+                repository.removeUserFriend(friendToRemove)
+                refreshUsers()
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error removing freidn: ${e.message}")
+            }
+        }
+    }
+
+    fun toggleFriendStar(friendToToggle: String) {
+        viewModelScope.launch {
+            try {
+                repository.toggleFriendStar(friendToToggle)
+                refreshUsers()
+            } catch (e: Exception) {
+                Log.e("FriendListViewModel", "Error toggling friend star: ${e.message}")
             }
         }
     }
