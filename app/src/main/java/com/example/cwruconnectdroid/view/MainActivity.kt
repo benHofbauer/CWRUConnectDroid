@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cwruconnectdroid.ui.theme.CWRUConnectDroidTheme
+import com.example.cwruconnectdroid.view.Game.GuessingGameView
 import com.example.cwruconnectdroid.view.profile.SelfProfile
 
 val MyAppIcons = Icons.Rounded
@@ -57,7 +58,7 @@ fun MainApp() {
                 )
                 NavigationBarItem(
                     selected = false,
-                    onClick = { },
+                    onClick = { navController.navigate("learn") },
                     label = { Text("Learn") },
                     icon = { Icon(MyAppIcons.Book, contentDescription = null) }
                 )
@@ -74,6 +75,9 @@ fun MainApp() {
             }
             composable("friends") {
                 FriendScreen()
+            }
+            composable ("learn") {
+                GuessingGameView()
             }
         }
     }
