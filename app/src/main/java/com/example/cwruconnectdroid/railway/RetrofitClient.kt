@@ -1,7 +1,9 @@
 package com.example.cwruconnectdroid.railway
 import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.NewConnection
+import com.example.cwruconnectdroid.model.NewPhoto
 import com.example.cwruconnectdroid.model.OldConnection
+import com.example.cwruconnectdroid.model.UploadedPhoto
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.model.guessingInstance
 import retrofit2.Retrofit
@@ -33,6 +35,9 @@ interface UserApiService {
 
     @GET("get_game_deck/{id}")
     suspend fun getGameDeck(@Path("id") userId: String): List<guessingInstance>
+
+    @POST("update_profile_photo")
+    suspend fun updatePhoto(@Body newPhoto: NewPhoto): UploadedPhoto
 }
 
 object RetrofitClient {

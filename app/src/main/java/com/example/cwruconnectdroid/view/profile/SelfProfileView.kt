@@ -135,7 +135,7 @@ fun ProfileEditView(
     var minibio by remember {mutableStateOf(user.minibio ?: "")}
     var fact by remember { mutableStateOf(user.fact ?: "") }
     var is_public_leaderboard by remember { mutableStateOf(user.is_public_leaderboard ?: false) }
-    var image_link by remember { mutableStateOf(user.image_link ?: "") }
+    var image_link by remember { mutableStateOf(viewModel.user.value?.image_link ?: "") }
 
     Scaffold(
         floatingActionButton = {
@@ -294,6 +294,7 @@ fun ProfileEditView(
             ) {
                 ProfilePhotoUploadRow { imageString ->
                     viewModel.updateProfilePhoto(imageString)
+                    onBack()
                 }
             }
 
