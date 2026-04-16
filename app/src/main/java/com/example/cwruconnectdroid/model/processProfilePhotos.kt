@@ -40,16 +40,14 @@ suspend fun processProfilePhoto(context: Context, uri: Uri): String? {
 
             // 4. Compress and Encode to Base64
             val outputStream = ByteArrayOutputStream()
-            // Using JPEG at 80% quality is usually a good balance of size vs quality
+
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
             val byteArray = outputStream.toByteArray()
 
             // Base64.NO_WRAP is recommended for APIs to avoid adding line breaks
-            val base64String = Base64.encodeToString(byteArray, Base64.NO_WRAP or Base64.URL_SAFE)
+            val base64String = Base64.encodeToString(byteArray, Base64.NO_WRAP)
 
             scaledBitmap.recycle()
-
-            Log.d("API", "Updating Photo... $base64String")
 
             base64String
         } catch (e: Exception) {

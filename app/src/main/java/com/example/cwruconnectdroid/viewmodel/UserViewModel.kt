@@ -45,7 +45,7 @@ class UserViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 repository.updateMainUser(userToUpdate)
-
+                refreshMainUser()
                 fetchMainUserFromDB()
             } catch (e: Exception) {
                 Log.e("UserViewModel", "Error updating main user: ${e.message}")
@@ -56,7 +56,8 @@ class UserViewModel : ViewModel() {
     fun updateProfilePhoto(encodedImage: String) {
         viewModelScope.launch {
             try {
-                //repository.
+                repository.updateProfilePhoto(encodedImage)
+                refreshMainUser()
                 fetchMainUserFromDB()
             } catch (e: Exception) {
                 Log.e("UserViewModel", "Error updating main user: ${e.message}")
