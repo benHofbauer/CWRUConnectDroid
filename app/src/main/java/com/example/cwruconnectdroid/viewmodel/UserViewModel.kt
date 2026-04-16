@@ -52,4 +52,15 @@ class UserViewModel : ViewModel() {
             }
         }
     }
+
+    fun updateProfilePhoto(encodedImage: String) {
+        viewModelScope.launch {
+            try {
+                //repository.
+                fetchMainUserFromDB()
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error updating main user: ${e.message}")
+            }
+        }
+    }
 }
