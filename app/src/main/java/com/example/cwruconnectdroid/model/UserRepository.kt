@@ -90,4 +90,15 @@ object UserRepository {
         }
         reloadFriendList()
     }
+
+    suspend fun updateProfilePhoto(encodedImage: String) {
+        Log.d("API", "Updating Photo... {$encodedImage}")
+        try {
+            var photo: NewPhoto = NewPhoto(userid = main_user_id, image = encodedImage)
+            //api.toggleStar(connection)
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to star connection: ${e.message}")
+        }
+        reloadFriendList()
+    }
 }
