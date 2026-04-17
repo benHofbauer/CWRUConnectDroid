@@ -21,8 +21,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cwruconnectdroid.ui.theme.CWRUConnectDroidTheme
+import com.example.cwruconnectdroid.view.FriendProfile.FriendScreen
 import com.example.cwruconnectdroid.view.Game.GuessingGameView
-import com.example.cwruconnectdroid.view.profile.SelfProfile
+import com.example.cwruconnectdroid.view.Profile.SelfProfile
 
 val MyAppIcons = Icons.Rounded
 class MainActivity : ComponentActivity() {

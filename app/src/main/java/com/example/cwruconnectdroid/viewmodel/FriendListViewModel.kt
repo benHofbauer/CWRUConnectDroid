@@ -7,7 +7,9 @@ import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.enums.enumEntries
 
 class FriendListViewModel : ViewModel() {
     private val repository = UserRepository
@@ -72,5 +74,9 @@ class FriendListViewModel : ViewModel() {
                 Log.e("FriendListViewModel", "Error toggling friend star: ${e.message}")
             }
         }
+    }
+
+    fun getFriendById(friendID: String): FriendUser? {
+        return friends.value.firstOrNull() { it.id == friendID }
     }
 }

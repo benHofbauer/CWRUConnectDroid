@@ -1,4 +1,4 @@
-package com.example.cwruconnectdroid.view.profile
+package com.example.cwruconnectdroid.view.Profile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
-import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

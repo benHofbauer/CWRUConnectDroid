@@ -1,11 +1,10 @@
-package com.example.cwruconnectdroid.view
+package com.example.cwruconnectdroid.view.FriendProfile
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,7 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.FriendUser
-import com.example.cwruconnectdroid.view.profile.FriendProfileScaffold
+import com.example.cwruconnectdroid.view.Profile.FriendProfileScaffold
 import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
 
 sealed class Screen(val route: String) {
@@ -82,7 +82,7 @@ fun FriendScreen (
                 FriendListView(viewModel)
             }
             composable("addFriends") {
-                addNewFriend(
+                AddNewFriend(
                     viewModel,
                     { navController.popBackStack() }
                 )
@@ -242,40 +242,6 @@ fun BlockingProfileView(
                 .size(120.dp)
                 .clip(RoundedCornerShape(percent = 25))
         )
-    }
-}
-
-@Composable
-fun addNewFriend(
-    viewModel: FriendListViewModel,
-    onBack: () -> Unit
-) {
-    var user_id by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize()
-    ) {
-        OutlinedTextField(
-            value = user_id ,
-            onValueChange = { user_id = it },
-            label = { Text("Add Friend") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Button(onClick = {
-            viewModel.addFriend(user_id)
-            onBack()
-        }) {
-            Text("Add Friend")
-        }
-
-        Button(onClick = {
-            onBack()
-        }) {
-            Text("Go back please")
-        }
     }
 }
 
