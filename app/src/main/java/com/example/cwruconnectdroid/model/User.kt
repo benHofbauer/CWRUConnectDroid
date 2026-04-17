@@ -20,7 +20,7 @@ data class User(
 
 data class newUser(
     @SerializedName("name") val name: String,
-    @SerializedName("nickname") val nickname: String,
+    @SerializedName("nickname") val nickname: String?,
     @SerializedName("caseid") val caseID: String,
     @SerializedName("pronouns") val pronouns: String?,
     @SerializedName("graduation_year") val graduation_year: String?,
