@@ -1,4 +1,4 @@
-package com.example.cwruconnectdroid.view.Profile
+package com.example.cwruconnectdroid.view.Profile.UserProfile
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape

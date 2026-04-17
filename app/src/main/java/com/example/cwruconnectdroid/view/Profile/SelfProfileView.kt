@@ -47,6 +47,7 @@ import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.model.processProfilePhoto
+import com.example.cwruconnectdroid.view.Profile.UserProfile.UserProfileView
 import com.example.cwruconnectdroid.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -102,7 +103,7 @@ fun SelfProfileView(
     user: User?
 ) {
     if (user != null) {
-        UserProfile(user = user)
+        UserProfileView(user = user)
     } else {
         CircularProgressIndicator()
     }
@@ -141,7 +142,7 @@ fun ProfileEditView(
                     nationality = if (nationality == "") null else nationality,
                     minibio = if (minibio == "") null else minibio,
                     fact = if (fact == "") null else fact,
-                    pronunciation = if (pronunciation == "") null else fact
+                    pronunciation = if (pronunciation == "") null else pronunciation
                 )
                 // performSave(updatedUser)
                 viewModel.updateUserProfile(updatedUser)
