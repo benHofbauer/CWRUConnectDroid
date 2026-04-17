@@ -38,12 +38,3 @@ fun PFPView(
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewPFPView() {
-    PFPView(
-        imageLink = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flh5.googleusercontent.com%2F-8SjLt8fjuLE%2FTXJE4OkmGrI%2FAAAAAAAADHI%2F4YtL0fqG8Js%2Fs1600%2FPorky_Pig_4.jpg&f=1&nofb=1&ipt=28e6c7228595b63f3b215962ab3bca50cd0d8fbf53f83b76cdef31d01be63b8d",
-        qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=4"
-    )
-}

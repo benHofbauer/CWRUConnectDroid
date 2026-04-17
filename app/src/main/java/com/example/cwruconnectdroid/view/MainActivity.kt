@@ -1,5 +1,7 @@
 package com.example.cwruconnectdroid.view
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,14 +18,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.cwruconnectdroid.model.UserRepository
 import com.example.cwruconnectdroid.ui.theme.CWRUConnectDroidTheme
-import com.example.cwruconnectdroid.view.FriendProfile.FriendScreen
+import com.example.cwruconnectdroid.view.Profile.FriendProfile.FriendScreenNavigation
 import com.example.cwruconnectdroid.view.Game.GuessingGameView
-import com.example.cwruconnectdroid.view.Profile.SelfProfile
+import com.example.cwruconnectdroid.view.Profile.UserProfile.SelfProfileNavigation
 
 val MyAppIcons = Icons.Rounded
 class MainActivity : ComponentActivity() {
@@ -32,14 +36,29 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CWRUConnectDroidTheme {
-                MainApp()
+                MainApp(this)
             }
         }
     }
 }
 
 @Composable
-fun MainApp() {
+fun MainApp(context: Context) {
+    val sharedPreference =  context.getSharedPreferences("com.example.cwruconnectdroid", Context.MODE_PRIVATE)
+    val userid = sharedPreference.getString("userid",  null)
+    val repository = UserRepository
+
+    if (userid == null) {
+        repository.main_user_id = "9"
+        AppNaviation()
+    } else {
+        repository.main_user_id = userid
+        AppNaviation()
+    }
+}
+
+@Composable
+fun AppNaviation() {
     val navController = rememberNavController()
 
     Scaffold(
@@ -72,22 +91,14 @@ fun MainApp() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("profile") {
-                SelfProfile()
+                SelfProfileNavigation()
             }
             composable("friends") {
-                FriendScreen()
+                FriendScreenNavigation()
             }
             composable ("learn") {
                 GuessingGameView()
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfilePreview() {
-    CWRUConnectDroidTheme {
-        MainApp()
     }
 }

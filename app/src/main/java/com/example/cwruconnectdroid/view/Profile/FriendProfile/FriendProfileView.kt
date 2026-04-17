@@ -1,4 +1,4 @@
-package com.example.cwruconnectdroid.view.Profile
+package com.example.cwruconnectdroid.view.Profile.FriendProfile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -133,13 +133,13 @@ fun FriendProfileView(
                 )
             }
 
-            Text(
-                text = "User's Major",
-                //modifier = Modifier.weight(1f),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily.SansSerif,
-            )
+//            Text(
+//                text = "User's Major",
+//                //modifier = Modifier.weight(1f),
+//                fontSize = 18.sp,
+//                fontWeight = FontWeight.Normal,
+//                fontFamily = FontFamily.SansSerif,
+//            )
 
 
             user.graduation_year?.let {

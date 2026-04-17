@@ -19,12 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cwruconnectdroid.model.User
+import com.example.cwruconnectdroid.view.Profile.UserProfile.PFPView
 
 @Composable
 fun UserProfileView(
     user: User
 ) {
-    var qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${user.id}"
+    val qrLink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${user.id}"
 
     Column (
         modifier = Modifier
@@ -34,7 +35,7 @@ fun UserProfileView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PFPView(
-            user.image_link,
+            user.image_link ?: "",
             qrLink = qrLink
         )
 
@@ -92,13 +93,13 @@ fun UserProfileView(
                 )
             }
 
-            Text(
-                text = "User's Major",
-                //modifier = Modifier.weight(1f),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily.SansSerif,
-            )
+//            Text(
+//                text = "User's Major",
+//                //modifier = Modifier.weight(1f),
+//                fontSize = 18.sp,
+//                fontWeight = FontWeight.Normal,
+//                fontFamily = FontFamily.SansSerif,
+//            )
 
 
             user.graduation_year?.let {
@@ -139,6 +140,5 @@ fun UserProfileView(
                 )
             }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-package com.example.cwruconnectdroid.view.Profile
+package com.example.cwruconnectdroid.view.Profile.UserProfile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -47,13 +47,12 @@ import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.model.processProfilePhoto
-import com.example.cwruconnectdroid.view.Profile.UserProfile.UserProfileView
 import com.example.cwruconnectdroid.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelfProfile(
+fun SelfProfileNavigation(
     viewModel: UserViewModel = viewModel()
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -118,7 +117,6 @@ fun ProfileEditView(
 ) {
     var name by remember { mutableStateOf(user.name ?: "") }
     var nickname by remember { mutableStateOf(user.nickname ?: "") }
-    var caseid by remember {mutableStateOf(user.caseID ?: "")}
     var pronouns by remember { mutableStateOf(user.pronouns ?: "") }
     var graduation_year by remember { mutableStateOf(user.graduation_year ?: "") }
     var hometown by remember {mutableStateOf(user.hometown ?: "")}
@@ -135,7 +133,6 @@ fun ProfileEditView(
                 val updatedUser = user.copy(
                     name = name,
                     nickname = nickname,
-                    caseID = caseid,
                     pronouns = if (pronouns == "") null else pronouns,
                     graduation_year = if (graduation_year == "") null else graduation_year,
                     hometown = if (hometown == "") null else hometown,
@@ -199,15 +196,6 @@ fun ProfileEditView(
                 value = pronunciation,
                 onValueChange = { pronunciation = it },
                 label = { Text("Pronunciation") },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-            )
-
-            // caseid
-            // TODO: Default value shows up for case ID
-            OutlinedTextField(
-                value = caseid,
-                onValueChange = { caseid = it },
-                label = { Text("case id") },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
             )
 

@@ -36,6 +36,9 @@ fun GuessView(
     onGuessMade: (isCorrect: Boolean) -> Unit
 ) {
 
+    val colorGreen = Color.hsv(120F, 1F, 0.6F)
+    val colorRed = Color.hsv(0F, 1F, 0.6F)
+
     var correctIdx: Int = -1
 
     for (i in 0..3) {
@@ -86,12 +89,18 @@ fun GuessView(
                 shape = RoundedCornerShape(percent = 25),
                 colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = when (guessState) {
-                        true -> if (correctIdx == 0) Color.Green else Color.Red
+                        true -> if (correctIdx == 0) colorGreen else colorRed
                         false -> MaterialTheme.colorScheme.surface
                     }
                 )
             ) {
-                Text(instance.choices[0])
+                Text(
+                    text = instance.choices[0],
+                    color = when (guessState) {
+                        true -> Color.White
+                        false -> MaterialTheme.colorScheme.primary
+                    }
+                )
             }
 
             ElevatedButton(
@@ -110,12 +119,18 @@ fun GuessView(
                 shape = RoundedCornerShape(percent = 25),
                 colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = when (guessState) {
-                        true -> if (correctIdx == 1) Color.Green else Color.Red
+                        true -> if (correctIdx == 1) colorGreen else colorRed
                         false -> MaterialTheme.colorScheme.surface
                     }
                 )
             ) {
-                Text(instance.choices[1])
+                Text(
+                    text = instance.choices[1],
+                    color = when (guessState) {
+                        true -> Color.White
+                        false -> MaterialTheme.colorScheme.primary
+                    }
+                )
             }
         }
 
@@ -140,12 +155,18 @@ fun GuessView(
                 shape = RoundedCornerShape(percent = 25),
                 colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = when (guessState) {
-                        true -> if (correctIdx == 2) Color.Green else Color.Red
+                        true -> if (correctIdx == 2) colorGreen else colorRed
                         false -> MaterialTheme.colorScheme.surface
                     }
                 )
             ) {
-                Text(instance.choices[2])
+                Text(
+                    text = instance.choices[2],
+                    color = when (guessState) {
+                        true -> Color.White
+                        false -> MaterialTheme.colorScheme.primary
+                    }
+                )
             }
 
             ElevatedButton(
@@ -164,12 +185,18 @@ fun GuessView(
                 shape = RoundedCornerShape(percent = 25),
                 colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = when (guessState) {
-                        true -> if (correctIdx == 3) Color.Green else Color.Red
+                        true -> if (correctIdx == 3) colorGreen else colorRed
                         false -> MaterialTheme.colorScheme.surface
                     }
                 )
             ) {
-                Text(instance.choices[3])
+                Text(
+                    text = instance.choices[3],
+                    color = when (guessState) {
+                        true -> Color.White
+                        false -> MaterialTheme.colorScheme.primary
+                    }
+                )
             }
         }
     }

@@ -1,4 +1,5 @@
 package com.example.cwruconnectdroid.model
+import android.content.Context
 import android.util.Log
 import com.example.cwruconnectdroid.railway.RetrofitClient
 
@@ -6,7 +7,7 @@ object UserRepository {
 
     private val api = RetrofitClient.instance
 
-    var main_user_id = "4"
+    var main_user_id = "-1"
 
     var main_user: User? = null
         private set
@@ -114,6 +115,15 @@ object UserRepository {
             guessingList = api.getGameDeck(main_user_id)
         } catch (e: Exception) {
             Log.e("API_ERROR", "Failed to start guessing game: ${e.message}")
+        }
+    }
+
+    suspend fun createNewUser() {
+        Log.d("API", "Creating New User")
+        try {
+
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Failed to create new user: ${e.message}")
         }
     }
 }

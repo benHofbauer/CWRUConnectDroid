@@ -60,7 +60,7 @@ class UserViewModel : ViewModel() {
                 refreshMainUser()
                 fetchMainUserFromDB()
             } catch (e: Exception) {
-                Log.e("UserViewModel", "Error updating main user: ${e.message}")
+                Log.e("UserViewModel", "Error updating user profile photo: ${e.message}")
             }
         }
     }
