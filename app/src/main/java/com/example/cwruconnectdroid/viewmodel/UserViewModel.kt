@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.cwruconnectdroid.model.FriendUser
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.model.UserRepository
+import com.example.cwruconnectdroid.model.newUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -61,6 +62,25 @@ class UserViewModel : ViewModel() {
                 fetchMainUserFromDB()
             } catch (e: Exception) {
                 Log.e("UserViewModel", "Error updating user profile photo: ${e.message}")
+            }
+        }
+    }
+
+    fun registerAndUploadPhoto(user: newUser, encodedImage: String, onComplete: (String?) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val newUserId = repository.createNewUser(user)
+                Log.e("UserViewModel", "NewUserId: $newUserId")
+                if (newUserId != null) {
+                    repository.updateProfilePhoto(encodedImage)
+                    refreshMainUser()
+                    onComplete(newUserId)
+                } else {
+                    onComplete(null)
+                }
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error in registration flow: ${e.message}")
+                onComplete(null)
             }
         }
     }

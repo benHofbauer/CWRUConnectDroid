@@ -17,9 +17,15 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.edit
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -28,6 +34,7 @@ import com.example.cwruconnectdroid.ui.theme.CWRUConnectDroidTheme
 import com.example.cwruconnectdroid.view.Profile.FriendProfile.FriendScreenNavigation
 import com.example.cwruconnectdroid.view.Game.GuessingGameView
 import com.example.cwruconnectdroid.view.Profile.UserProfile.SelfProfileNavigation
+import com.example.cwruconnectdroid.viewmodel.UserViewModel
 
 val MyAppIcons = Icons.Rounded
 class MainActivity : ComponentActivity() {
@@ -45,14 +52,33 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApp(context: Context) {
     val sharedPreference =  context.getSharedPreferences("com.example.cwruconnectdroid", Context.MODE_PRIVATE)
-    val userid = sharedPreference.getString("userid",  null)
+    var userid by remember { mutableStateOf(sharedPreference.getString("userid",  null)) }
     val repository = UserRepository
+    val viewModel: UserViewModel = viewModel()
+
+//    with (sharedPreference.edit()) {
+//        sharedPreference.edit { clear() }
+//        apply()
+//    }
 
     if (userid == null) {
-        repository.main_user_id = "9"
-        AppNaviation()
+        CreateUserScreen(
+            onCreateAndPhoto = { newUser, imageString ->
+                viewModel.registerAndUploadPhoto(newUser, imageString) { newId ->
+                    if (newId != null) {
+                        sharedPreference.edit {
+                            putString("userid", newId)
+                            apply()
+                        }
+                        userid = newId
+                    } else {
+                        // Handle error (e.g., show a Toast)
+                    }
+                }
+            }
+        )
     } else {
-        repository.main_user_id = userid
+        repository.main_user_id = userid ?: "9"
         AppNaviation()
     }
 }

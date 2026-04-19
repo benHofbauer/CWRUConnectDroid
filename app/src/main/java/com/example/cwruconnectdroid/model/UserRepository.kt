@@ -118,19 +118,19 @@ object UserRepository {
         }
     }
 
-    suspend fun createNewUser(user: newUser) {
+    suspend fun createNewUser(user: newUser): String? {
         Log.d("API", "Creating New User")
-        try {
-
-            val response: newUserID = api.createUser(user)
+        return try {
+            val response = api.createUser(user)
             if (response.status == "Success") {
                 main_user_id = response.userid
+                response.userid
             } else {
-                main_user_id = "9"
+                null
             }
-
         } catch (e: Exception) {
             Log.e("API_ERROR", "Failed to create new user: ${e.message}")
+            null
         }
     }
 }

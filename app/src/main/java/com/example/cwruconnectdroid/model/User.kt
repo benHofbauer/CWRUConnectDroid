@@ -32,6 +32,6 @@ data class newUser(
 )
 
 data class newUserID(
-    @SerializedName("userid") val userid: String,
-    @SerializedName("stats") val status: String
+    @SerializedName("userID") val userid: String,
+    @SerializedName("status") val status: String
 )

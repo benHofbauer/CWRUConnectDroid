@@ -40,16 +40,14 @@ import com.example.cwruconnectdroid.viewmodel.UserViewModel
 @Composable
 fun CreateUserScreen(
     //context: Context
-    onCreate: (user: newUser) -> Unit,
-    addPhoto: () -> Unit,
+    onCreateAndPhoto: (user: newUser, imageString: String) -> Unit
 ) {
 
-    var photoTime by remember { mutableStateOf(false) };
+    var signUp by remember { mutableStateOf<newUser?>(null) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
         Spacer(Modifier.size(32.dp))
         Row(
@@ -71,7 +69,7 @@ fun CreateUserScreen(
                 .padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            if (!photoTime) {
+            if (signUp == null) {
                 Text(
                     text = "Enter your information below to get started",
                     fontSize = 16.sp
@@ -84,9 +82,17 @@ fun CreateUserScreen(
             }
         }
 
-        CreateProfileForm { user: newUser ->
-            onCreate(user)
-            photoTime = true
+        if (signUp == null) {
+            CreateProfileForm { user: newUser ->
+                signUp = user
+            }
+        } else {
+            CreateNewUserPhoto { imageString ->
+                onCreateAndPhoto(
+                    signUp!!,
+                    imageString
+                )
+            }
         }
 
     }
@@ -138,7 +144,7 @@ fun CreateProfileForm(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxSize()
+                .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
             // name
@@ -155,7 +161,7 @@ fun CreateProfileForm(
                 value = caseid,
                 onValueChange = { caseid = it },
                 label = { Text("Case ID") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
             )
 
             // pronunciation
@@ -223,7 +229,7 @@ fun CreateProfileForm(
 
 @Composable
 fun CreateNewUserPhoto(
-    onBack: (imageString: String) -> Unit,
+    onBase64Ready: (imageString: String) -> Unit,
 ) {
     Row (
         modifier = Modifier
@@ -232,7 +238,7 @@ fun CreateNewUserPhoto(
         horizontalArrangement = Arrangement.Center
     ) {
         ProfilePhotoUploadRow { imageString ->
-            onBack(imageString)
+            onBase64Ready(imageString)
         }
     }
 }
