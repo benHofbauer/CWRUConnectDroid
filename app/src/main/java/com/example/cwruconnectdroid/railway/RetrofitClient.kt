@@ -6,6 +6,8 @@ import com.example.cwruconnectdroid.model.OldConnection
 import com.example.cwruconnectdroid.model.UploadedPhoto
 import com.example.cwruconnectdroid.model.User
 import com.example.cwruconnectdroid.model.guessingInstance
+import com.example.cwruconnectdroid.model.newUser
+import com.example.cwruconnectdroid.model.newUserID
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -38,6 +40,9 @@ interface UserApiService {
 
     @POST("update_profile_photo")
     suspend fun updatePhoto(@Body newPhoto: NewPhoto): UploadedPhoto
+
+    @POST("create_user")
+    suspend fun createUser(@Body user: newUser): newUserID
 }
 
 object RetrofitClient {

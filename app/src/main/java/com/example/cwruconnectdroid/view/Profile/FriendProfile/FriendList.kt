@@ -1,10 +1,12 @@
-package com.example.cwruconnectdroid.view.FriendProfile
+package com.example.cwruconnectdroid.view.Profile.FriendProfile
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,7 +23,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,7 +47,6 @@ import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.cwruconnectdroid.R
 import com.example.cwruconnectdroid.model.FriendUser
-import com.example.cwruconnectdroid.view.Profile.FriendProfileScaffold
 import com.example.cwruconnectdroid.viewmodel.FriendListViewModel
 
 sealed class Screen(val route: String) {
@@ -57,7 +57,7 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun FriendScreen (
+fun FriendScreenNavigation (
     viewModel: FriendListViewModel = viewModel()
 ) {
     val navController = rememberNavController()
@@ -79,7 +79,7 @@ fun FriendScreen (
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("friendsList") {
-                FriendListView(viewModel)
+                FriendListNavigation(viewModel)
             }
             composable("addFriends") {
                 AddNewFriend(
@@ -92,7 +92,7 @@ fun FriendScreen (
 }
 
 @Composable
-fun FriendListView(
+fun FriendListNavigation(
     viewModel: FriendListViewModel
 ) {
     val navController = rememberNavController()
@@ -102,7 +102,7 @@ fun FriendListView(
     NavHost(navController = navController, startDestination = Screen.FriendsList.route) {
 
         composable(Screen.FriendsList.route) {
-            FriendsListScreen(
+            FriendListView(
                 users = userList,
                 viewModel,
                 onUserClick = { userId ->
@@ -130,7 +130,7 @@ fun FriendListView(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendsListScreen(
+fun FriendListView (
     users: List<FriendUser>,
     viewModel: FriendListViewModel,
     onUserClick: (String) -> Unit
@@ -157,24 +157,39 @@ fun FriendsListScreen(
                 if (editing) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         BlockingProfileView(user)
 
-                        Spacer(Modifier.size(16.dp))
-
-                        IconButton(onClick = { viewModel.removeFriend(user.id) }) {
-                            Icon(
-                                imageVector = Icons.Filled.Block,
-                                contentDescription = "Remove Friend",
-                                modifier = Modifier
-                                    .align(alignment = Alignment.CenterVertically)
-                            )
+                        Column (
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Button(onClick = { viewModel.removeFriend(user.id) }) {
+                                Row() {
+                                    Text(
+                                        text = "Remove Friend "
+                                    )
+                                    Icon(
+                                        imageVector = Icons.Filled.Block,
+                                        contentDescription = "Remove Friend",
+                                        modifier = Modifier
+                                            .size(20.dp),
+                                        tint = Color(red = 255, green = 75, blue = 75)
+                                    )
+                                }
+                            }
                         }
+
+                        Spacer(modifier = Modifier.size(16.dp))
                     }
                 } else {
                     Box(modifier = Modifier.clickable { onUserClick(user.id) } .fillMaxWidth()) {
-                        MiniProfile(user)
+                        MiniProfileEntry(user)
                     }
                 }
             }
@@ -183,7 +198,7 @@ fun FriendsListScreen(
 }
 
 @Composable
-fun MiniProfile(
+fun MiniProfileEntry (
     user: FriendUser
 ) {
     Row(
@@ -248,5 +263,5 @@ fun BlockingProfileView(
 @Preview(showBackground = true)
 @Composable
 fun PreviewFriends() {
-    FriendScreen()
+    FriendScreenNavigation()
 }
