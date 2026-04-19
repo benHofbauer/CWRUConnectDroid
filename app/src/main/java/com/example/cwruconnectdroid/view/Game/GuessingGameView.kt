@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -34,6 +33,8 @@ import com.example.cwruconnectdroid.model.guessingInstance
 import com.example.cwruconnectdroid.viewmodel.GuessingGameViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -75,11 +76,35 @@ fun GuessingGameView(
                 }
             }
         } else {
-            Text("$correctCounter/$answerCounter correct")
-            TextButton(
-                { viewModel.refreshGuesses() }
+            Column (
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text("Play again")
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Absolute.Center
+                ) {
+                    Text(
+                        text = "$correctCounter/$answerCounter correct",
+                        fontSize = 20.sp
+                    )
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Absolute.Center
+                ) {
+                    TextButton(
+                        { viewModel.refreshGuesses() }
+                    ) {
+                        Text(
+                            text = "Play again?"
+                        )
+                    }
+                }
             }
         }
 

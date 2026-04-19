@@ -1,4 +1,5 @@
 package com.example.cwruconnectdroid.model
+import android.R
 import com.google.gson.annotations.SerializedName
 
 data class FriendUser(
@@ -18,4 +19,12 @@ data class FriendUser(
     @SerializedName("note") val note: String?,
     @SerializedName("starred") val starred: Boolean,
     @SerializedName("matchedAt") val matched_at: String,
+)
+
+data class PotentialNewFriend(
+    @SerializedName("userid") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("is_reconnection") val reconnect: Boolean,
+    @SerializedName("image_link") val image_link: String,
 )

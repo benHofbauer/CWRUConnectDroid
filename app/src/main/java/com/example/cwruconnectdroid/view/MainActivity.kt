@@ -72,7 +72,7 @@ fun MainApp(context: Context) {
                         }
                         userid = newId
                     } else {
-                        // Handle error (e.g., show a Toast)
+                        //
                     }
                 }
             }
